@@ -12,7 +12,6 @@ export default function LoginForm() {
   const onSubmit = (data: LoginUserData) => mutation.mutate(data);
 
   const mutation = useLoginMutation();
-
   return (
     <form>
       <Grid container direction="column" spacing={2}>

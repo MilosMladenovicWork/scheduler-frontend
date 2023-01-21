@@ -1,29 +1,36 @@
-import { AuthContext } from "@/state/auth.context";
+import { api } from "@/api/api";
 import { LoginResponseData } from "@/types/login-response-data.type";
 import { Response } from "@/types/response.type";
-import axios from "axios";
-import { useContext } from "react";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 
 export type LoginUserData = { email: string; password: string };
 
+export type AuthQueryData = { token: string; email: string; password: string };
+
 export const useLoginMutation = () => {
-  const authContext = useContext(AuthContext);
+  const queryClient = useQueryClient();
 
   return useMutation(
     (loginUserData: LoginUserData) => {
-      return axios.post<Response<LoginResponseData>>(
-        "http://localhost:3000/auth/login",
+      return api.post<Response<LoginResponseData>>(
+        "/auth/login",
         loginUserData
       );
     },
     {
-      onSuccess: ({
-        data: {
-          data: { access_token },
+      onSuccess: (
+        {
+          data: {
+            data: { access_token },
+          },
         },
-      }) => {
-        authContext?.setToken(access_token);
+        { email, password }
+      ) => {
+        queryClient.setQueryData<AuthQueryData>("auth", {
+          token: access_token,
+          email,
+          password,
+        });
       },
     }
   );

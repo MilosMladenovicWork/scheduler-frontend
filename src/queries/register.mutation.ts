@@ -1,5 +1,5 @@
+import { api } from "@/api/api";
 import { Response } from "@/types/response.type";
-import axios from "axios";
 import { useMutation } from "react-query";
 import { useLoginMutation } from "./login.mutation";
 
@@ -20,10 +20,7 @@ export const useRegisterMutation = () => {
 
   return useMutation(
     (newUser: RegisterUserData) => {
-      return axios.post<Response<RegisterUserResponse>>(
-        "http://localhost:3000/register",
-        newUser
-      );
+      return api.post<Response<RegisterUserResponse>>("/register", newUser);
     },
     {
       onSuccess: (_data, { email, password }) => {
