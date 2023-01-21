@@ -1,5 +1,4 @@
-import { Close } from "@mui/icons-material";
-import { Grid, IconButton, SxProps, Theme, Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import Modal from "./Modal";
 
 export default function LoginModal({
