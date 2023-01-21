@@ -4,32 +4,14 @@ import PasswordTextField from "./PasswordTextField";
 import { isNil } from "lodash";
 import { emailValidationRules } from "@/utils/email-validation-rules";
 import { passwordValidationRules } from "@/utils/password-validation-rules";
-import { usernameValidationRules } from "@/utils/username-validation-rules";
 
-export default function RegisterForm() {
+export default function LoginForm() {
   const { handleSubmit, control } = useForm();
   const onSubmit = (data: any) => console.log(data);
 
   return (
     <form>
       <Grid container direction="column" spacing={2}>
-        <Grid item>
-          <Controller
-            name="username"
-            control={control}
-            rules={usernameValidationRules}
-            render={({ field: { onChange, value }, fieldState: { error } }) => (
-              <TextField
-                fullWidth
-                onChange={onChange}
-                value={value}
-                label="Username"
-                error={!isNil(error)}
-                helperText={!isNil(error) ? error?.message : null}
-              />
-            )}
-          />
-        </Grid>
         <Grid item>
           <Controller
             name="email"
@@ -66,7 +48,7 @@ export default function RegisterForm() {
         </Grid>
         <Grid item>
           <Button variant="contained" onClick={handleSubmit(onSubmit)}>
-            Register
+            Login
           </Button>
         </Grid>
       </Grid>
