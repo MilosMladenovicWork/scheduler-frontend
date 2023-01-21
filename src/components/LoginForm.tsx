@@ -5,10 +5,18 @@ import { isNil } from "lodash";
 import { emailValidationRules } from "@/utils/email-validation-rules";
 import { passwordValidationRules } from "@/utils/password-validation-rules";
 import Button from "./Button";
+import axios from "axios";
+import { useMutation } from "react-query";
+
+type LoginUserData = { email: string; password: string };
 
 export default function LoginForm() {
-  const { handleSubmit, control } = useForm();
-  const onSubmit = (data: any) => console.log(data);
+  const { handleSubmit, control } = useForm<LoginUserData>();
+  const onSubmit = (data: LoginUserData) => mutation.mutate(data);
+
+  const mutation = useMutation((loginUserData: LoginUserData) => {
+    return axios.post("http://localhost:3000/auth/login", loginUserData);
+  });
 
   return (
     <form>
@@ -48,7 +56,11 @@ export default function LoginForm() {
           />
         </Grid>
         <Grid item>
-          <Button variant="contained" onClick={handleSubmit(onSubmit)}>
+          <Button
+            variant="contained"
+            isLoading={mutation.isLoading}
+            onClick={handleSubmit(onSubmit)}
+          >
             Login
           </Button>
         </Grid>
