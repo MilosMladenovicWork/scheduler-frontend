@@ -1,5 +1,13 @@
-import { Button, Grid, TextField } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import {
+  Button,
+  Grid,
+  IconButton,
+  InputAdornment,
+  TextField,
+} from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
+import PasswordTextField from "./PasswordTextField";
 
 export default function RegisterForm() {
   const { handleSubmit, control } = useForm();
@@ -13,7 +21,12 @@ export default function RegisterForm() {
             name="username"
             control={control}
             render={({ field: { onChange, value } }) => (
-              <TextField onChange={onChange} value={value} label="Username" />
+              <TextField
+                fullWidth
+                onChange={onChange}
+                value={value}
+                label="Username"
+              />
             )}
           />
         </Grid>
@@ -22,7 +35,12 @@ export default function RegisterForm() {
             name="email"
             control={control}
             render={({ field: { onChange, value } }) => (
-              <TextField onChange={onChange} value={value} label="Email" />
+              <TextField
+                fullWidth
+                onChange={onChange}
+                value={value}
+                label="Email"
+              />
             )}
           />
         </Grid>
@@ -31,7 +49,12 @@ export default function RegisterForm() {
             name="password"
             control={control}
             render={({ field: { onChange, value } }) => (
-              <TextField onChange={onChange} value={value} label="Password" />
+              <PasswordTextField
+                fullWidth
+                onChange={onChange}
+                value={value}
+                label="Password"
+              />
             )}
           />
         </Grid>
