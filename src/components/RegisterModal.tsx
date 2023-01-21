@@ -1,8 +1,8 @@
 import { Close } from "@mui/icons-material";
-import { Grid, IconButton, SxProps, Theme, Typography } from "@mui/material";
+import { Grid, IconButton, Typography } from "@mui/material";
 import Modal from "./Modal";
 
-export default function LoginModal({
+export default function RegisterModal({
   open,
   onClose,
 }: {
@@ -12,9 +12,10 @@ export default function LoginModal({
   return (
     <Modal open={open} onClose={onClose}>
       <Grid container direction="column">
+        <Grid item alignSelf="flex-end"></Grid>
         <Grid item>
           <Typography id="transition-modal-title" variant="h6" component="h2">
-            Log in with your account
+            Register with your email address
           </Typography>
         </Grid>
       </Grid>

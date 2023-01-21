@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import LoginModal from "@/components/LoginModal";
 import { useState } from "react";
+import RegisterModal from "@/components/RegisterModal";
 
 const style = {
   position: "absolute" as "absolute",
@@ -28,9 +29,13 @@ const style = {
 };
 
 export default function Home() {
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const [openLoginModal, setOpenLoginModal] = useState(false);
+  const handleOpenLoginModal = () => setOpenLoginModal(true);
+  const handleCloseLoginModal = () => setOpenLoginModal(false);
+
+  const [openRegisterModal, setOpenRegisterModal] = useState(false);
+  const handleOpenRegisterModal = () => setOpenRegisterModal(true);
+  const handleCloseRegisterModal = () => setOpenRegisterModal(false);
 
   return (
     <>
@@ -68,9 +73,17 @@ export default function Home() {
               <Grid item>
                 <Button
                   sx={{ my: 2, color: "white", display: "block" }}
-                  onClick={handleOpen}
+                  onClick={handleOpenLoginModal}
                 >
                   Login
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button
+                  sx={{ my: 2, color: "white", display: "block" }}
+                  onClick={handleOpenRegisterModal}
+                >
+                  Register
                 </Button>
               </Grid>
             </Grid>
@@ -78,7 +91,11 @@ export default function Home() {
         </Container>
       </AppBar>
       <main className={styles.main}></main>
-      <LoginModal open={open} onClose={handleClose} />
+      <LoginModal open={openLoginModal} onClose={handleCloseLoginModal} />
+      <RegisterModal
+        open={openRegisterModal}
+        onClose={handleCloseRegisterModal}
+      />
     </>
   );
 }
