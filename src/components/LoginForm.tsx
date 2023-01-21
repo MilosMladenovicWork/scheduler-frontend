@@ -5,31 +5,13 @@ import { isNil } from "lodash";
 import { emailValidationRules } from "@/utils/email-validation-rules";
 import { passwordValidationRules } from "@/utils/password-validation-rules";
 import Button from "./Button";
-import axios from "axios";
-import { useMutation } from "react-query";
-import { useContext } from "react";
-import { AuthContext } from "@/state/auth.context";
-import { Response } from "@/types/response.type";
-import { LoginResponseData } from "@/types/login-response-data.type";
-
-type LoginUserData = { email: string; password: string };
+import { LoginUserData, useLoginMutation } from "@/queries/login.mutation";
 
 export default function LoginForm() {
   const { handleSubmit, control } = useForm<LoginUserData>();
   const onSubmit = (data: LoginUserData) => mutation.mutate(data);
 
-  const mutation = useMutation((loginUserData: LoginUserData) => {
-    return axios.post<Response<LoginResponseData>>(
-      "http://localhost:3000/auth/login",
-      loginUserData
-    );
-  });
-
-  const authContext = useContext(AuthContext);
-
-  if (mutation.isSuccess) {
-    authContext?.setToken(mutation.data.data.data.access_token);
-  }
+  const mutation = useLoginMutation();
 
   return (
     <form>
