@@ -5,7 +5,7 @@ import { useMutation, useQueryClient } from "react-query";
 
 export type LoginUserData = { email: string; password: string };
 
-export type AuthQueryData = { token: string; email: string; password: string };
+export type AuthQueryData = { token: string };
 
 export const useLoginMutation = () => {
   const queryClient = useQueryClient();
@@ -18,18 +18,13 @@ export const useLoginMutation = () => {
       );
     },
     {
-      onSuccess: (
-        {
-          data: {
-            data: { access_token },
-          },
+      onSuccess: ({
+        data: {
+          data: { access_token },
         },
-        { email, password }
-      ) => {
+      }) => {
         queryClient.setQueryData<AuthQueryData>("auth", {
           token: access_token,
-          email,
-          password,
         });
       },
     }

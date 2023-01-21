@@ -3,9 +3,12 @@ import { AuthQueryData, useLoginMutation } from "@/queries/login.mutation";
 import { isNil } from "lodash";
 import { ReactNode, useEffect } from "react";
 import { useQuery } from "react-query";
+import { useRouter } from "next/navigation";
 
 export const WithAxios = ({ children }: { children: ReactNode }) => {
   const mutation = useLoginMutation();
+
+  const router = useRouter();
 
   const { data: authData } = useQuery<AuthQueryData>({
     queryKey: ["auth"],
@@ -17,17 +20,14 @@ export const WithAxios = ({ children }: { children: ReactNode }) => {
         return response;
       },
       async (error) => {
-        const errStatusCode = error.response.data.statusCode as number;
-        if (errStatusCode === 401 && !isNil(authData)) {
-          await mutation.mutateAsync({
-            email: authData.email,
-            password: authData.password,
-          });
+        const errorStatusCode = error.response.data.statusCode as number;
+        if (errorStatusCode === 401) {
+          router.push("/");
         }
         return Promise.reject(error);
       }
     );
-  }, [authData, mutation]);
+  }, [authData, mutation, router]);
 
   return <>{children}</>;
 };

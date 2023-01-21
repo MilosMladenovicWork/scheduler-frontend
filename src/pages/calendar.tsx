@@ -50,7 +50,7 @@ export default function Home() {
                   Logout
                 </Button>
               </Grid>
-              <Grid item>{data?.data.data.username}</Grid>
+              <Grid item>{data?.username}</Grid>
             </Grid>
           </Toolbar>
         </Container>

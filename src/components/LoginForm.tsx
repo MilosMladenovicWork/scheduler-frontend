@@ -6,12 +6,21 @@ import { emailValidationRules } from "@/utils/email-validation-rules";
 import { passwordValidationRules } from "@/utils/password-validation-rules";
 import Button from "./Button";
 import { LoginUserData, useLoginMutation } from "@/queries/login.mutation";
+import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
   const { handleSubmit, control } = useForm<LoginUserData>();
-  const onSubmit = (data: LoginUserData) => mutation.mutate(data);
+  const onSubmit = (data: LoginUserData) =>
+    mutation.mutate(data, {
+      onSuccess: () => {
+        router.push("/calendar");
+      },
+    });
 
   const mutation = useLoginMutation();
+
+  const router = useRouter();
+
   return (
     <form>
       <Grid container direction="column" spacing={2}>

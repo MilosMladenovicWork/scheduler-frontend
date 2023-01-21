@@ -16,9 +16,13 @@ export const useGetProfileQuery = () => {
     queryKey: ["auth"],
   });
 
-  return useQuery("loggedInUserProfile", () =>
-    api.get<Response<GetProfileResponse>>("/auth/login", {
-      headers: { Authorization: `Bearer ${data?.token}` },
-    })
+  return useQuery(
+    "loggedInUserProfile",
+    async () =>
+      (
+        await api.get<Response<GetProfileResponse>>("/auth/login", {
+          headers: { Authorization: `Bearer ${data?.token}` },
+        })
+      ).data.data
   );
 };
