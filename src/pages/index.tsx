@@ -2,14 +2,36 @@ import Head from "next/head";
 import styles from "@/styles/Home.module.css";
 import {
   AppBar,
+  Backdrop,
+  Box,
   Button,
   Container,
+  Fade,
   Grid,
+  Modal,
   Toolbar,
   Typography,
 } from "@mui/material";
+import LoginModal from "@/components/LoginModal";
+import { useState } from "react";
+
+const style = {
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
 
 export default function Home() {
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   return (
     <>
       <Head>
@@ -44,7 +66,10 @@ export default function Home() {
             </Grid>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Button sx={{ my: 2, color: "white", display: "block" }}>
+                <Button
+                  sx={{ my: 2, color: "white", display: "block" }}
+                  onClick={handleOpen}
+                >
                   Login
                 </Button>
               </Grid>
@@ -53,6 +78,7 @@ export default function Home() {
         </Container>
       </AppBar>
       <main className={styles.main}></main>
+      <LoginModal open={open} onClose={handleClose} />
     </>
   );
 }
