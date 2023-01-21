@@ -1,20 +1,10 @@
 import Head from "next/head";
 import styles from "@/styles/Home.module.css";
-import {
-  AppBar,
-  Backdrop,
-  Box,
-  Button,
-  Container,
-  Fade,
-  Grid,
-  Modal,
-  Toolbar,
-  Typography,
-} from "@mui/material";
+import { AppBar, Container, Grid, Toolbar, Typography } from "@mui/material";
 import LoginModal from "@/components/LoginModal";
 import { useState } from "react";
 import RegisterModal from "@/components/RegisterModal";
+import Button from "@/components/Button";
 
 const style = {
   position: "absolute" as "absolute",
