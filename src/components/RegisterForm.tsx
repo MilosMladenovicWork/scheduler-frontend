@@ -1,14 +1,23 @@
-import { Button, Grid, TextField } from "@mui/material";
+import { Grid, TextField } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 import PasswordTextField from "./PasswordTextField";
 import { isNil } from "lodash";
 import { emailValidationRules } from "@/utils/email-validation-rules";
 import { passwordValidationRules } from "@/utils/password-validation-rules";
 import { usernameValidationRules } from "@/utils/username-validation-rules";
+import { useMutation, useQuery } from "react-query";
+import axios from "axios";
+import Button from "./Button";
+
+type RegisterUserData = { username: string; email: string; password: string };
 
 export default function RegisterForm() {
-  const { handleSubmit, control } = useForm();
-  const onSubmit = (data: any) => console.log(data);
+  const { handleSubmit, control } = useForm<RegisterUserData>();
+  const onSubmit = (data: RegisterUserData) => mutation.mutate(data);
+
+  const mutation = useMutation((newUser: RegisterUserData) => {
+    return axios.post("http://localhost:3000/register", newUser);
+  });
 
   return (
     <form>
@@ -65,7 +74,11 @@ export default function RegisterForm() {
           />
         </Grid>
         <Grid item>
-          <Button variant="contained" onClick={handleSubmit(onSubmit)}>
+          <Button
+            variant="contained"
+            isLoading={mutation.isLoading}
+            onClick={handleSubmit(onSubmit)}
+          >
             Register
           </Button>
         </Grid>
