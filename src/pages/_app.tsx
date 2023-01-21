@@ -1,3 +1,4 @@
+import AuthProvider from "@/state/auth.provider";
 import "@/styles/globals.css";
 import { CssBaseline } from "@mui/material";
 import type { AppProps } from "next/app";
@@ -8,8 +9,10 @@ const queryClient = new QueryClient();
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
-      <CssBaseline />
-      <Component {...pageProps} />
+      <AuthProvider>
+        <CssBaseline />
+        <Component {...pageProps} />
+      </AuthProvider>
     </QueryClientProvider>
   );
 }

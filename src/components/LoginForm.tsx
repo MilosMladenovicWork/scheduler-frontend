@@ -7,6 +7,10 @@ import { passwordValidationRules } from "@/utils/password-validation-rules";
 import Button from "./Button";
 import axios from "axios";
 import { useMutation } from "react-query";
+import { useContext } from "react";
+import { AuthContext } from "@/state/auth.context";
+import { Response } from "@/types/response.type";
+import { LoginResponseData } from "@/types/login-response-data.type";
 
 type LoginUserData = { email: string; password: string };
 
@@ -15,8 +19,17 @@ export default function LoginForm() {
   const onSubmit = (data: LoginUserData) => mutation.mutate(data);
 
   const mutation = useMutation((loginUserData: LoginUserData) => {
-    return axios.post("http://localhost:3000/auth/login", loginUserData);
+    return axios.post<Response<LoginResponseData>>(
+      "http://localhost:3000/auth/login",
+      loginUserData
+    );
   });
+
+  const authContext = useContext(AuthContext);
+
+  if (mutation.isSuccess) {
+    authContext?.setToken(mutation.data.data.data.access_token);
+  }
 
   return (
     <form>
