@@ -5,18 +5,18 @@ import { useMutation, useQueryClient } from "react-query";
 import { useAuthQuery } from "./get-auth.query";
 import { FriendRequestStatusEnum } from "./get-friend-requests.query";
 
-export type RespondToFriendRequestData = {
-  status: FriendRequestStatusEnum.APPROVED | FriendRequestStatusEnum.REJECTED;
+export type UpdateFriendRequestData = {
+  status: FriendRequestStatusEnum.REJECTED;
 };
 
-export type RespondToFriendRequestResponse = {
+export type UpdateFriendRequestResponse = {
   id: string;
   status: FriendRequestStatusEnum;
   senderId: string;
   receiverId: string;
 };
 
-export const useRespondToFriendRequestMutation = () => {
+export const useUpdateFriendRequestMutation = () => {
   const queryClient = useQueryClient();
 
   const { data } = useAuthQuery();
@@ -24,14 +24,14 @@ export const useRespondToFriendRequestMutation = () => {
   return useMutation(
     ({
       friendRequestId,
-      respondToFriendRequestData,
+      updateFriendRequestData,
     }: {
       friendRequestId: string;
-      respondToFriendRequestData: RespondToFriendRequestData;
+      updateFriendRequestData: UpdateFriendRequestData;
     }) => {
       return api.patch<Response<LoginResponseData>>(
-        `friend-requests/${friendRequestId}/response`,
-        respondToFriendRequestData,
+        `friend-requests/${friendRequestId}`,
+        updateFriendRequestData,
         {
           headers: { Authorization: `Bearer ${data?.token}` },
         }
@@ -39,7 +39,6 @@ export const useRespondToFriendRequestMutation = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries("friend-requests");
         queryClient.invalidateQueries("friends");
       },
     }

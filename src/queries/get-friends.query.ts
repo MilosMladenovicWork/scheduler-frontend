@@ -8,6 +8,8 @@ export type FriendsResponse = {
   id: string;
   email: string;
   username: string;
+  sentFriendRequests: { id: string }[];
+  receivedFriendRequests: { id: string }[];
 }[];
 
 export const useFriendsQuery = () => {

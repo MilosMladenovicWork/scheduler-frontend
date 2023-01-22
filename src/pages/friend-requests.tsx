@@ -71,26 +71,22 @@ const FriendRequest = ({
   const primaryText = data?.id === senderId ? receiverId : senderId;
 
   const handleAccept = useCallback(() => {
-    if (!isNil(data)) {
-      mutation.mutate({
-        friendRequestId: id,
-        respondToFriendRequestData: {
-          status: FriendRequestStatusEnum.APPROVED,
-        },
-      });
-    }
-  }, [data, id, mutation]);
+    mutation.mutate({
+      friendRequestId: id,
+      respondToFriendRequestData: {
+        status: FriendRequestStatusEnum.APPROVED,
+      },
+    });
+  }, [id, mutation]);
 
   const handleReject = useCallback(() => {
-    if (!isNil(data)) {
-      mutation.mutate({
-        friendRequestId: id,
-        respondToFriendRequestData: {
-          status: FriendRequestStatusEnum.REJECTED,
-        },
-      });
-    }
-  }, [data, id, mutation]);
+    mutation.mutate({
+      friendRequestId: id,
+      respondToFriendRequestData: {
+        status: FriendRequestStatusEnum.REJECTED,
+      },
+    });
+  }, [id, mutation]);
 
   const listItem = useMemo(() => {
     return (
