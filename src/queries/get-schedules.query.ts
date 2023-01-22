@@ -13,7 +13,10 @@ export type SchedulesResponse = {
   description?: string;
 }[];
 
-export const useSchedulesQuery = ({ from, to, userIds }: GetUserData) => {
+export const useSchedulesQuery = (
+  { from, to, userIds }: GetUserData,
+  options?: { enabled?: boolean }
+) => {
   const { data: authData } = useAuthQuery();
 
   return useQuery(
@@ -25,6 +28,6 @@ export const useSchedulesQuery = ({ from, to, userIds }: GetUserData) => {
           headers: { Authorization: `Bearer ${authData?.token}` },
         })
       ).data.data,
-    { staleTime: 10 * 1000 }
+    { staleTime: 10 * 1000, ...options }
   );
 };

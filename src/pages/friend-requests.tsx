@@ -77,8 +77,6 @@ const FriendRequest = ({
 
   const mutation = useRespondToFriendRequestMutation();
 
-  const primaryText = data?.userId === senderId ? receiverId : senderId;
-
   const isCurrentUserSender = senderId === data?.userId;
 
   const { data: userData } = useGetUserQuery({
