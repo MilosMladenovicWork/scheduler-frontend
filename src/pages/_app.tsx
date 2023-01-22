@@ -1,6 +1,6 @@
 import { WithAxios } from "@/providers/with-axios";
 import "@/styles/globals.css";
-import { CssBaseline } from "@mui/material";
+import { Box, CssBaseline } from "@mui/material";
 import type { AppProps } from "next/app";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
@@ -13,7 +13,9 @@ export default function App({ Component, pageProps }: AppProps) {
       <ReactQueryDevtools initialIsOpen={false} />
       <WithAxios>
         <CssBaseline />
-        <Component {...pageProps} />
+        <Box sx={{ minHeight: "100vh" }}>
+          <Component {...pageProps} />
+        </Box>
       </WithAxios>
     </QueryClientProvider>
   );

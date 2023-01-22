@@ -30,33 +30,31 @@ export default function FriendRequests() {
   const { data } = useFriendRequestsQuery();
   return (
     <DashboardLayout>
-      <Container maxWidth="xl" sx={{ pt: 2 }}>
-        <main>
-          <Grid container>
-            <Grid item container justifyContent="flex-end">
-              <Grid item>
-                <Button variant="contained" onClick={handleOpenAddFriendModal}>
-                  Add friend
-                </Button>
-              </Grid>
-            </Grid>
-            <Grid item xs={12} sm={6} lg={4}>
-              <List>
-                {data?.map(({ id, receiverId, senderId, status }) => {
-                  return (
-                    <FriendRequest
-                      key={id}
-                      id={id}
-                      receiverId={receiverId}
-                      senderId={senderId}
-                    />
-                  );
-                })}
-              </List>
+      <main>
+        <Grid container>
+          <Grid item container justifyContent="flex-end">
+            <Grid item>
+              <Button variant="contained" onClick={handleOpenAddFriendModal}>
+                Add friend
+              </Button>
             </Grid>
           </Grid>
-        </main>
-      </Container>
+          <Grid item xs={12} sm={6} lg={4}>
+            <List>
+              {data?.map(({ id, receiverId, senderId, status }) => {
+                return (
+                  <FriendRequest
+                    key={id}
+                    id={id}
+                    receiverId={receiverId}
+                    senderId={senderId}
+                  />
+                );
+              })}
+            </List>
+          </Grid>
+        </Grid>
+      </main>
       <AddFriendModal
         open={openAddFriendModal}
         onClose={handleCloseAddFriendModal}

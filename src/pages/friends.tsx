@@ -20,35 +20,33 @@ export default function Friends() {
 
   return (
     <DashboardLayout>
-      <Container maxWidth="xl">
-        <Grid container>
-          <Grid item xs={12} sm={6} lg={4}>
-            <List>
-              {data?.map(
-                ({
-                  id,
-                  username,
-                  email,
-                  receivedFriendRequests,
-                  sentFriendRequests,
-                }) => {
-                  const friendRequestId =
-                    receivedFriendRequests[0]?.id || sentFriendRequests[0]?.id;
-                  return (
-                    <Friend
-                      key={id}
-                      id={id}
-                      username={username}
-                      email={email}
-                      friendRequestId={friendRequestId}
-                    />
-                  );
-                }
-              )}
-            </List>
-          </Grid>
+      <Grid container>
+        <Grid item xs={12} sm={6} lg={4}>
+          <List>
+            {data?.map(
+              ({
+                id,
+                username,
+                email,
+                receivedFriendRequests,
+                sentFriendRequests,
+              }) => {
+                const friendRequestId =
+                  receivedFriendRequests[0]?.id || sentFriendRequests[0]?.id;
+                return (
+                  <Friend
+                    key={id}
+                    id={id}
+                    username={username}
+                    email={email}
+                    friendRequestId={friendRequestId}
+                  />
+                );
+              }
+            )}
+          </List>
         </Grid>
-      </Container>
+      </Grid>
     </DashboardLayout>
   );
 }
