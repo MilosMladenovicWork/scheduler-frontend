@@ -23,6 +23,7 @@ export default function Calendar({
       defaultView={"week"}
       onSelectSlot={onSelectSlot}
       selectable
+      step={15}
     />
   );
 }

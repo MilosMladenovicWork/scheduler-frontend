@@ -36,10 +36,16 @@ export default function CalendarPage() {
     };
   });
 
-  const handleSelectSlot: CalendarProps["onSelectSlot"] = ({ start, end }) => {
-    handleOpenCreateScheduleModal();
-    setStartDate(moment(start).utc().toDate());
-    setEndDate(moment(end).utc().toDate());
+  const handleSelectSlot: CalendarProps["onSelectSlot"] = ({
+    start,
+    end,
+    action,
+  }) => {
+    if (action === "select") {
+      handleOpenCreateScheduleModal();
+      setStartDate(moment(start).utc().toDate());
+      setEndDate(moment(end).utc().toDate());
+    }
   };
 
   return (
