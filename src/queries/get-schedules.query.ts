@@ -3,7 +3,7 @@ import { Response } from "@/types/response.type";
 import { useQuery } from "react-query";
 import { useAuthQuery } from "./get-auth.query";
 
-export type GetUserData = { from: Date; to: Date; userIds: string[] };
+export type GetUserData = { from?: Date; to?: Date; userIds: string[] };
 
 export type SchedulesResponse = {
   id: string;

@@ -2,21 +2,13 @@ import Calendar from "@/components/Calendar";
 import CalendarFriendsSelect from "@/components/CalendarFriendsSelect";
 import CreateScheduleModal from "@/components/CreateScheduleModal";
 import DashboardLayout from "@/components/DashboardLayout";
-import { useFriendsQuery } from "@/queries/get-friends.query";
 import { useGetProfileQuery } from "@/queries/get-profile.query";
 import { useSchedulesQuery } from "@/queries/get-schedules.query";
-import {
-  Autocomplete,
-  AutocompleteProps,
-  Avatar,
-  AvatarGroup,
-  Grid,
-  TextField,
-} from "@mui/material";
+import { Grid } from "@mui/material";
 import { isEmpty, isNil } from "lodash";
 import moment from "moment";
-import { useCallback, useState } from "react";
-import { CalendarProps } from "react-big-calendar";
+import { useCallback, useEffect, useState } from "react";
+import { CalendarProps, View } from "react-big-calendar";
 
 export default function CalendarPage() {
   const [openCreateScheduleModal, setOpenCreateScheduleModal] = useState(false);
@@ -24,6 +16,10 @@ export default function CalendarPage() {
   const handleCloseCreateScheduleModal = () =>
     setOpenCreateScheduleModal(false);
   const [selectedFriendsIds, setSelectedFriendsIds] = useState<string[]>([]);
+  const [currentDate, setCurrentDate] = useState<Date>(moment().toDate());
+  const [currentView, setCurrentView] = useState<View>("week");
+  const [fromDate, setFromDate] = useState<Date>();
+  const [toDate, setToDate] = useState<Date>();
 
   const [startDate, setStartDate] = useState<Date>();
   const [endDate, setEndDate] = useState<Date>();
@@ -32,8 +28,8 @@ export default function CalendarPage() {
   const userIds = !isNil(profileData) ? [profileData.userId] : [];
   const { data } = useSchedulesQuery(
     {
-      from: new Date("2023-01-15"),
-      to: new Date("2023-02-01"),
+      from: fromDate,
+      to: toDate,
       userIds: [...userIds, ...selectedFriendsIds],
     },
     { enabled: !isEmpty(userIds), keepPreviousData: true }
@@ -71,6 +67,32 @@ export default function CalendarPage() {
     []
   );
 
+  const handleCalendarNavigate: CalendarProps["onNavigate"] = (date, view) => {
+    setCurrentDate(date);
+    setCurrentView(view);
+  };
+
+  const handleCalendarView: CalendarProps["onView"] = (view) => {
+    setCurrentView(view);
+  };
+
+  useEffect(() => {
+    if (currentView === "day") {
+      setFromDate(moment(currentDate).startOf("day").toDate());
+      setToDate(moment(currentDate).endOf("day").toDate());
+    }
+    if (currentView === "week") {
+      setFromDate(moment(currentDate).startOf("isoWeek").toDate());
+      setToDate(moment(currentDate).endOf("isoWeek").toDate());
+    }
+    if (currentView === "month") {
+      setFromDate(
+        moment(currentDate).startOf("month").subtract(7, "days").toDate()
+      );
+      setToDate(moment(currentDate).endOf("month").add(7, "days").toDate());
+    }
+  }, [currentDate, currentView]);
+
   return (
     <DashboardLayout>
       <main>
@@ -79,7 +101,13 @@ export default function CalendarPage() {
             <CalendarFriendsSelect onChange={handleCalendarFriendsSelect} />
           </Grid>
           <Grid item xs={12}>
-            <Calendar events={events} onSelectSlot={handleSelectSlot} />
+            <Calendar
+              events={events}
+              onSelectSlot={handleSelectSlot}
+              onNavigate={handleCalendarNavigate}
+              onView={handleCalendarView}
+              defaultDate={moment().toDate()}
+            />
           </Grid>
         </Grid>
       </main>

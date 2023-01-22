@@ -6,12 +6,25 @@ import {
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
+moment.locale("sr", {
+  week: {
+    dow: 1,
+    doy: 1,
+  },
+});
+
 const localizer = momentLocalizer(moment);
 
 export default function Calendar({
   events,
   onSelectSlot,
-}: Pick<CalendarProps, "events" | "onSelectSlot">) {
+  onNavigate,
+  defaultDate,
+  onView,
+}: Pick<
+  CalendarProps,
+  "events" | "onSelectSlot" | "onNavigate" | "defaultDate" | "onView"
+>) {
   return (
     <BigCalendar
       localizer={localizer}
@@ -24,6 +37,9 @@ export default function Calendar({
       onSelectSlot={onSelectSlot}
       selectable
       step={15}
+      onNavigate={onNavigate}
+      defaultDate={defaultDate}
+      onView={onView}
     />
   );
 }
