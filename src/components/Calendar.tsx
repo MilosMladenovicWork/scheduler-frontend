@@ -31,7 +31,7 @@ export default function Calendar({
       events={events}
       startAccessor="start"
       endAccessor="end"
-      style={{ height: 500 }}
+      style={{ height: "80vh" }}
       views={["day", "week", "month"]}
       defaultView={"week"}
       onSelectSlot={onSelectSlot}
