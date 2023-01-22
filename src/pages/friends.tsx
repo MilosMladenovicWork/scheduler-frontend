@@ -1,10 +1,12 @@
-import styles from "@/styles/Home.module.css";
 import DashboardLayout from "@/components/DashboardLayout";
+import { Container } from "@mui/material";
 
 export default function Friends() {
   return (
     <DashboardLayout>
-      <main className={styles.main}></main>
+      <Container maxWidth="xl">
+        <main></main>
+      </Container>
     </DashboardLayout>
   );
 }

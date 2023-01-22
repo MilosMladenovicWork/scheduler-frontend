@@ -1,5 +1,4 @@
 import Head from "next/head";
-import styles from "@/styles/Home.module.css";
 import { AppBar, Container, Grid, Toolbar, Typography } from "@mui/material";
 import LoginModal from "@/components/LoginModal";
 import { useState } from "react";
@@ -80,7 +79,9 @@ export default function Home() {
           </Toolbar>
         </Container>
       </AppBar>
-      <main className={styles.main}></main>
+      <Container maxWidth="xl">
+        <main></main>
+      </Container>
       <LoginModal open={openLoginModal} onClose={handleCloseLoginModal} />
       <RegisterModal
         open={openRegisterModal}

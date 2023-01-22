@@ -1,6 +1,5 @@
 import { api } from "@/api/api";
 import { AuthQueryData, useLoginMutation } from "@/queries/login.mutation";
-import { isNil } from "lodash";
 import { ReactNode, useEffect } from "react";
 import { useQuery } from "react-query";
 import { useRouter } from "next/navigation";
