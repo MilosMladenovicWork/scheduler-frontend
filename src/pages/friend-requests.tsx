@@ -1,9 +1,12 @@
 import DashboardLayout from "@/components/DashboardLayout";
 import { useFriendRequestsQuery } from "@/queries/get-friend-requests.query";
 import { useGetProfileQuery } from "@/queries/get-profile.query";
+import { Add } from "@mui/icons-material";
 import {
   Avatar,
   Container,
+  Grid,
+  IconButton,
   List,
   ListItem,
   ListItemAvatar,
@@ -18,18 +21,22 @@ export default function FriendRequests() {
     <DashboardLayout>
       <Container maxWidth="xl">
         <main>
-          <List>
-            {data?.map(({ id, receiverId, senderId, status }) => {
-              return (
-                <FriendRequest
-                  key={id}
-                  id={id}
-                  receiverId={receiverId}
-                  senderId={senderId}
-                />
-              );
-            })}
-          </List>
+          <Grid container>
+            <Grid item xs={12} sm={6} lg={4}>
+              <List>
+                {data?.map(({ id, receiverId, senderId, status }) => {
+                  return (
+                    <FriendRequest
+                      key={id}
+                      id={id}
+                      receiverId={receiverId}
+                      senderId={senderId}
+                    />
+                  );
+                })}
+              </List>
+            </Grid>
+          </Grid>
         </main>
       </Container>
     </DashboardLayout>
@@ -56,6 +63,9 @@ const FriendRequest = ({
           <Avatar>{primaryText.slice(0, 2).toUpperCase()}</Avatar>
         </ListItemAvatar>
         <ListItemText primary={primaryText} />
+        <IconButton>
+          <Add />
+        </IconButton>
       </ListItem>
     );
   }, [id, primaryText]);
