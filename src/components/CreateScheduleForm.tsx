@@ -4,33 +4,29 @@ import { isNil } from "lodash";
 import Button from "./Button";
 import { usernameValidationRules } from "@/utils/username-validation-rules";
 import {
-  AddFriendData,
-  useAddFriendMutation,
-} from "@/queries/add-friend.mutation";
-import {
   CreateScheduleData,
   useCreateScheduleMutation,
 } from "@/queries/create-schedule.mutation";
-import { useGetProfileQuery } from "@/queries/get-profile.query";
 
 export default function CreateScheduleForm({
   startDate,
   endDate,
   onSuccess,
+  userIds,
 }: {
   startDate?: Date;
   endDate?: Date;
   onSuccess?: () => void;
+  userIds: string[];
 }) {
-  const { data: profileData } = useGetProfileQuery();
   const { handleSubmit, control } = useForm<CreateScheduleData>();
   const onSubmit = (data: CreateScheduleData) => {
     // TODO: handle all needed fields by react-hook-form, not only title
-    if (!isNil(profileData) && !isNil(startDate) && !isNil(endDate)) {
+    if (!isNil(startDate) && !isNil(endDate)) {
       return mutation.mutate(
         {
           title: data.title,
-          userIds: [profileData.userId],
+          userIds,
           scheduleStartDate: startDate,
           scheduleEndDate: endDate,
         },

@@ -7,11 +7,13 @@ export default function CreateScheduleModal({
   onClose,
   startDate,
   endDate,
+  userIds,
 }: {
   open: boolean;
   onClose: () => void;
   startDate?: Date;
   endDate?: Date;
+  userIds: string[];
 }) {
   return (
     <Modal open={open} onClose={onClose}>
@@ -26,6 +28,7 @@ export default function CreateScheduleModal({
             onSuccess={onClose}
             startDate={startDate}
             endDate={endDate}
+            userIds={userIds}
           />
         </Grid>
       </Grid>

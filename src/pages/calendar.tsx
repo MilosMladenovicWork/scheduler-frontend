@@ -7,7 +7,7 @@ import { useSchedulesQuery } from "@/queries/get-schedules.query";
 import { Grid } from "@mui/material";
 import { isEmpty, isNil } from "lodash";
 import moment from "moment";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { CalendarProps, View } from "react-big-calendar";
 
 export default function CalendarPage() {
@@ -25,12 +25,19 @@ export default function CalendarPage() {
   const [endDate, setEndDate] = useState<Date>();
 
   const { data: profileData } = useGetProfileQuery();
-  const userIds = !isNil(profileData) ? [profileData.userId] : [];
+  const userIds = useMemo(
+    () => (!isNil(profileData) ? [profileData.userId] : []),
+    [profileData]
+  );
+  const currentUserAndFriendsUserIds = useMemo(
+    () => [...userIds, ...selectedFriendsIds],
+    [selectedFriendsIds, userIds]
+  );
   const { data } = useSchedulesQuery(
     {
       from: fromDate,
       to: toDate,
-      userIds: [...userIds, ...selectedFriendsIds],
+      userIds: currentUserAndFriendsUserIds,
     },
     { enabled: !isEmpty(userIds), keepPreviousData: true }
   );
@@ -116,6 +123,7 @@ export default function CalendarPage() {
         onClose={handleCloseCreateScheduleModal}
         startDate={startDate}
         endDate={endDate}
+        userIds={currentUserAndFriendsUserIds}
       />
     </DashboardLayout>
   );
