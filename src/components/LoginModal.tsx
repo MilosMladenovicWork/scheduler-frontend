@@ -18,7 +18,7 @@ export default function LoginModal({
           </Typography>
         </Grid>
         <Grid item>
-          <LoginForm />
+          <LoginForm onSuccess={onClose} />
         </Grid>
       </Grid>
     </Modal>

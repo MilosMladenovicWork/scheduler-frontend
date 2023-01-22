@@ -1,5 +1,4 @@
-import { Close } from "@mui/icons-material";
-import { Grid, IconButton, Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import Modal from "./Modal";
 import RegisterForm from "./RegisterForm";
 
@@ -19,7 +18,7 @@ export default function RegisterModal({
           </Typography>
         </Grid>
         <Grid item>
-          <RegisterForm />
+          <RegisterForm onSuccess={onClose} />
         </Grid>
       </Grid>
     </Modal>

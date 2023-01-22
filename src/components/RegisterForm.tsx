@@ -10,11 +10,27 @@ import {
   RegisterUserData,
   useRegisterMutation,
 } from "@/queries/register.mutation";
+import { useRouter } from "next/navigation";
 
-export default function RegisterForm() {
+export default function RegisterForm({
+  onSuccess,
+}: {
+  onSuccess?: () => void;
+}) {
   const { handleSubmit, control } = useForm<RegisterUserData>();
-  const onSubmit = (data: RegisterUserData) => mutation.mutate(data);
+  const onSubmit = (data: RegisterUserData) =>
+    mutation.mutate(data, {
+      onSuccess: () => {
+        if (!isNil(onSuccess)) {
+          onSuccess();
+        }
+
+        router.push("/calendar");
+      },
+    });
   const mutation = useRegisterMutation();
+
+  const router = useRouter();
 
   return (
     <form>

@@ -8,11 +8,14 @@ import Button from "./Button";
 import { LoginUserData, useLoginMutation } from "@/queries/login.mutation";
 import { useRouter } from "next/navigation";
 
-export default function LoginForm() {
+export default function LoginForm({ onSuccess }: { onSuccess?: () => void }) {
   const { handleSubmit, control } = useForm<LoginUserData>();
   const onSubmit = (data: LoginUserData) =>
     mutation.mutate(data, {
       onSuccess: () => {
+        if (!isNil(onSuccess)) {
+          onSuccess();
+        }
         router.push("/calendar");
       },
     });
