@@ -6,6 +6,7 @@ import {
   useFriendRequestsQuery,
 } from "@/queries/get-friend-requests.query";
 import { useGetProfileQuery } from "@/queries/get-profile.query";
+import { useGetUserQuery } from "@/queries/get-user.query";
 import { useRespondToFriendRequestMutation } from "@/queries/respond-to-friend-request.mutation";
 import { useUpdateFriendRequestMutation } from "@/queries/update-friends.mutation";
 import { Check, Close } from "@mui/icons-material";
@@ -76,11 +77,13 @@ const FriendRequest = ({
 
   const mutation = useRespondToFriendRequestMutation();
 
-  const updateFriendRequestMutation = useUpdateFriendRequestMutation();
-
   const primaryText = data?.userId === senderId ? receiverId : senderId;
 
   const isCurrentUserSender = senderId === data?.userId;
+
+  const { data: userData } = useGetUserQuery({
+    userId: isCurrentUserSender ? receiverId : senderId,
+  });
 
   const handleAccept = useCallback(() => {
     mutation.mutate({
@@ -104,9 +107,9 @@ const FriendRequest = ({
     return (
       <ListItem key={id} disablePadding sx={{ py: 1 }}>
         <ListItemAvatar>
-          <Avatar>{primaryText.slice(0, 2).toUpperCase()}</Avatar>
+          <Avatar>{userData?.username.slice(0, 2).toUpperCase()}</Avatar>
         </ListItemAvatar>
-        <ListItemText primary={primaryText} />
+        <ListItemText primary={userData?.username} />
         <IconButton onClick={handleReject}>
           <Close />
         </IconButton>
@@ -117,7 +120,7 @@ const FriendRequest = ({
         )}
       </ListItem>
     );
-  }, [handleAccept, handleReject, id, isCurrentUserSender, primaryText]);
+  }, [handleAccept, handleReject, id, isCurrentUserSender, userData?.username]);
 
   return isLoading ? <Skeleton>{listItem}</Skeleton> : listItem;
 };
