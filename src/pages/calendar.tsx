@@ -1,11 +1,21 @@
 import Calendar from "@/components/Calendar";
+import CalendarFriendsSelect from "@/components/CalendarFriendsSelect";
 import CreateScheduleModal from "@/components/CreateScheduleModal";
 import DashboardLayout from "@/components/DashboardLayout";
+import { useFriendsQuery } from "@/queries/get-friends.query";
 import { useGetProfileQuery } from "@/queries/get-profile.query";
 import { useSchedulesQuery } from "@/queries/get-schedules.query";
+import {
+  Autocomplete,
+  AutocompleteProps,
+  Avatar,
+  AvatarGroup,
+  Grid,
+  TextField,
+} from "@mui/material";
 import { isEmpty, isNil } from "lodash";
 import moment from "moment";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { CalendarProps } from "react-big-calendar";
 
 export default function CalendarPage() {
@@ -13,6 +23,7 @@ export default function CalendarPage() {
   const handleOpenCreateScheduleModal = () => setOpenCreateScheduleModal(true);
   const handleCloseCreateScheduleModal = () =>
     setOpenCreateScheduleModal(false);
+  const [selectedFriendsIds, setSelectedFriendsIds] = useState<string[]>([]);
 
   const [startDate, setStartDate] = useState<Date>();
   const [endDate, setEndDate] = useState<Date>();
@@ -23,9 +34,9 @@ export default function CalendarPage() {
     {
       from: new Date("2023-01-15"),
       to: new Date("2023-02-01"),
-      userIds,
+      userIds: [...userIds, ...selectedFriendsIds],
     },
-    { enabled: !isEmpty(userIds) }
+    { enabled: !isEmpty(userIds), keepPreviousData: true }
   );
 
   const events = data?.map(({ startDate, endDate, title }) => {
@@ -48,10 +59,29 @@ export default function CalendarPage() {
     }
   };
 
+  const handleCalendarFriendsSelect = useCallback(
+    (
+      listOfFriends: {
+        label: string;
+        id: string;
+      }[]
+    ) => {
+      setSelectedFriendsIds(listOfFriends.map(({ id }) => id));
+    },
+    []
+  );
+
   return (
     <DashboardLayout>
       <main>
-        <Calendar events={events} onSelectSlot={handleSelectSlot} />
+        <Grid container columnSpacing={2} rowSpacing={3}>
+          <Grid item xs={12}>
+            <CalendarFriendsSelect onChange={handleCalendarFriendsSelect} />
+          </Grid>
+          <Grid item xs={12}>
+            <Calendar events={events} onSelectSlot={handleSelectSlot} />
+          </Grid>
+        </Grid>
       </main>
       <CreateScheduleModal
         open={openCreateScheduleModal}

@@ -5,7 +5,6 @@ import { useUpdateFriendRequestMutation } from "@/queries/update-friends.mutatio
 import { Remove } from "@mui/icons-material";
 import {
   Avatar,
-  Container,
   Grid,
   IconButton,
   List,

@@ -15,12 +15,12 @@ export type SchedulesResponse = {
 
 export const useSchedulesQuery = (
   { from, to, userIds }: GetUserData,
-  options?: { enabled?: boolean }
+  options?: { enabled?: boolean; keepPreviousData?: boolean }
 ) => {
   const { data: authData } = useAuthQuery();
 
   return useQuery(
-    "schedules",
+    ["schedules", { from, to, userIds }],
     async () =>
       (
         await api.get<Response<SchedulesResponse>>(`/schedules`, {
