@@ -1,3 +1,5 @@
+import AddFriendModal from "@/components/AddFriendModal";
+import Button from "@/components/Button";
 import DashboardLayout from "@/components/DashboardLayout";
 import {
   FriendRequestStatusEnum,
@@ -5,14 +7,8 @@ import {
 } from "@/queries/get-friend-requests.query";
 import { useGetProfileQuery } from "@/queries/get-profile.query";
 import { useRespondToFriendRequestMutation } from "@/queries/respond-to-friend-request.mutation";
-import {
-  Add,
-  Check,
-  CheckCircle,
-  Close,
-  HighlightOff,
-  Remove,
-} from "@mui/icons-material";
+import { useUpdateFriendRequestMutation } from "@/queries/update-friends.mutation";
+import { Check, Close } from "@mui/icons-material";
 import {
   Avatar,
   Container,
@@ -24,16 +20,26 @@ import {
   ListItemText,
   Skeleton,
 } from "@mui/material";
-import { isNil } from "lodash";
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 export default function FriendRequests() {
+  const [openAddFriendModal, setOpenAddFriendModal] = useState(false);
+  const handleOpenAddFriendModal = () => setOpenAddFriendModal(true);
+  const handleCloseAddFriendModal = () => setOpenAddFriendModal(false);
+
   const { data } = useFriendRequestsQuery();
   return (
     <DashboardLayout>
-      <Container maxWidth="xl">
+      <Container maxWidth="xl" sx={{ pt: 2 }}>
         <main>
           <Grid container>
+            <Grid item container justifyContent="flex-end">
+              <Grid item>
+                <Button variant="contained" onClick={handleOpenAddFriendModal}>
+                  Add friend
+                </Button>
+              </Grid>
+            </Grid>
             <Grid item xs={12} sm={6} lg={4}>
               <List>
                 {data?.map(({ id, receiverId, senderId, status }) => {
@@ -51,6 +57,10 @@ export default function FriendRequests() {
           </Grid>
         </main>
       </Container>
+      <AddFriendModal
+        open={openAddFriendModal}
+        onClose={handleCloseAddFriendModal}
+      />
     </DashboardLayout>
   );
 }
@@ -68,7 +78,11 @@ const FriendRequest = ({
 
   const mutation = useRespondToFriendRequestMutation();
 
-  const primaryText = data?.id === senderId ? receiverId : senderId;
+  const updateFriendRequestMutation = useUpdateFriendRequestMutation();
+
+  const primaryText = data?.userId === senderId ? receiverId : senderId;
+
+  const isCurrentUserSender = senderId === data?.userId;
 
   const handleAccept = useCallback(() => {
     mutation.mutate({
@@ -98,12 +112,14 @@ const FriendRequest = ({
         <IconButton onClick={handleReject}>
           <Close />
         </IconButton>
-        <IconButton onClick={handleAccept}>
-          <Check />
-        </IconButton>
+        {!isCurrentUserSender && (
+          <IconButton onClick={handleAccept}>
+            <Check />
+          </IconButton>
+        )}
       </ListItem>
     );
-  }, [handleAccept, handleReject, id, primaryText]);
+  }, [handleAccept, handleReject, id, isCurrentUserSender, primaryText]);
 
   return isLoading ? <Skeleton>{listItem}</Skeleton> : listItem;
 };

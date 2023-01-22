@@ -2,13 +2,11 @@ import { api } from "@/api/api";
 import { Response } from "@/types/response.type";
 import { useQuery } from "react-query";
 import { useAuthQuery } from "./get-auth.query";
-import { AuthQueryData } from "./login.mutation";
 
 export type GetProfile = { email: string; password: string };
 
 export type GetProfileResponse = {
-  id: string;
-  email: string;
+  userId: string;
   username: string;
 };
 
