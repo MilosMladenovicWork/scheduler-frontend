@@ -1,6 +1,7 @@
 import { api } from "@/api/api";
 import { Response } from "@/types/response.type";
 import { useQuery } from "react-query";
+import { useAuthQuery } from "./get-auth.query";
 import { AuthQueryData } from "./login.mutation";
 
 export type GetProfile = { email: string; password: string };
@@ -12,9 +13,7 @@ export type GetProfileResponse = {
 };
 
 export const useGetProfileQuery = () => {
-  const { data } = useQuery<AuthQueryData>({
-    queryKey: ["auth"],
-  });
+  const { data } = useAuthQuery();
 
   return useQuery(
     "loggedInUserProfile",
@@ -23,6 +22,7 @@ export const useGetProfileQuery = () => {
         await api.get<Response<GetProfileResponse>>("/auth/login", {
           headers: { Authorization: `Bearer ${data?.token}` },
         })
-      ).data.data
+      ).data.data,
+    { staleTime: 5 * 60 * 1000 }
   );
 };

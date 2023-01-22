@@ -1,6 +1,7 @@
 import { api } from "@/api/api";
 import { Response } from "@/types/response.type";
 import { useQuery } from "react-query";
+import { useAuthQuery } from "./get-auth.query";
 import { AuthQueryData } from "./login.mutation";
 
 export type FriendsResponse = {
@@ -10,9 +11,7 @@ export type FriendsResponse = {
 }[];
 
 export const useFriendsQuery = () => {
-  const { data } = useQuery<AuthQueryData>({
-    queryKey: ["auth"],
-  });
+  const { data } = useAuthQuery();
 
   return useQuery(
     "friends",

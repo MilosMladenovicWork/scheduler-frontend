@@ -1,7 +1,18 @@
 import DashboardLayout from "@/components/DashboardLayout";
-import { useFriendRequestsQuery } from "@/queries/get-friend-requests.query";
+import {
+  FriendRequestStatusEnum,
+  useFriendRequestsQuery,
+} from "@/queries/get-friend-requests.query";
 import { useGetProfileQuery } from "@/queries/get-profile.query";
-import { Add } from "@mui/icons-material";
+import { useRespondToFriendRequestMutation } from "@/queries/respond-to-friend-request.mutation";
+import {
+  Add,
+  Check,
+  CheckCircle,
+  Close,
+  HighlightOff,
+  Remove,
+} from "@mui/icons-material";
 import {
   Avatar,
   Container,
@@ -13,7 +24,8 @@ import {
   ListItemText,
   Skeleton,
 } from "@mui/material";
-import { useMemo } from "react";
+import { isNil } from "lodash";
+import { useCallback, useMemo } from "react";
 
 export default function FriendRequests() {
   const { data } = useFriendRequestsQuery();
@@ -54,7 +66,31 @@ const FriendRequest = ({
 }) => {
   const { data, isLoading } = useGetProfileQuery();
 
+  const mutation = useRespondToFriendRequestMutation();
+
   const primaryText = data?.id === senderId ? receiverId : senderId;
+
+  const handleAccept = useCallback(() => {
+    if (!isNil(data)) {
+      mutation.mutate({
+        friendRequestId: id,
+        respondToFriendRequestData: {
+          status: FriendRequestStatusEnum.APPROVED,
+        },
+      });
+    }
+  }, [data, id, mutation]);
+
+  const handleReject = useCallback(() => {
+    if (!isNil(data)) {
+      mutation.mutate({
+        friendRequestId: id,
+        respondToFriendRequestData: {
+          status: FriendRequestStatusEnum.REJECTED,
+        },
+      });
+    }
+  }, [data, id, mutation]);
 
   const listItem = useMemo(() => {
     return (
@@ -63,12 +99,15 @@ const FriendRequest = ({
           <Avatar>{primaryText.slice(0, 2).toUpperCase()}</Avatar>
         </ListItemAvatar>
         <ListItemText primary={primaryText} />
-        <IconButton>
-          <Add />
+        <IconButton onClick={handleReject}>
+          <Close />
+        </IconButton>
+        <IconButton onClick={handleAccept}>
+          <Check />
         </IconButton>
       </ListItem>
     );
-  }, [id, primaryText]);
+  }, [handleAccept, handleReject, id, primaryText]);
 
   return isLoading ? <Skeleton>{listItem}</Skeleton> : listItem;
 };

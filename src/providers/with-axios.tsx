@@ -3,15 +3,14 @@ import { AuthQueryData, useLoginMutation } from "@/queries/login.mutation";
 import { ReactNode, useEffect } from "react";
 import { useQuery } from "react-query";
 import { useRouter } from "next/navigation";
+import { useAuthQuery } from "@/queries/get-auth.query";
 
 export const WithAxios = ({ children }: { children: ReactNode }) => {
   const mutation = useLoginMutation();
 
   const router = useRouter();
 
-  const { data: authData } = useQuery<AuthQueryData>({
-    queryKey: ["auth"],
-  });
+  const { data: authData } = useAuthQuery();
 
   useEffect(() => {
     api.interceptors.response.use(
