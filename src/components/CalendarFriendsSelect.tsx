@@ -69,7 +69,7 @@ export default function CalendarFriendsSelect({
             label: username,
             id,
           }))}
-          sx={{ width: 300 }}
+          sx={{ width: { xs: 150, sm: 300 } }}
           renderInput={(params) => <TextField {...params} label="Add friend" />}
           onChange={handleSelectFriendChange}
         />

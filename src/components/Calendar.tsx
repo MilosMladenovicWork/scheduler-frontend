@@ -45,6 +45,9 @@ export default function Calendar({
         timeSlotWrapper: CustomTimeSlotWrapper,
       }}
       localizer={localizer}
+      formats={{
+        timeGutterFormat: "HH:mm",
+      }}
       events={events}
       startAccessor="start"
       endAccessor="end"
@@ -175,6 +178,5 @@ export const CustomEvent: ComponentType<EventProps<Event>> = ({
 };
 
 export const CustomTimeSlotWrapper = ({ ...props }) => {
-  console.log(props);
   return <Typography {...props} variant="body2"></Typography>;
 };
