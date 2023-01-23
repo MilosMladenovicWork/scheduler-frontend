@@ -20,6 +20,7 @@ const style: SxProps<Theme> = {
   bgcolor: "background.paper",
   boxShadow: 24,
   p: 4,
+  pt: 2,
   height: { xs: "100vh", sm: "auto" },
   width: { xs: "100vw", sm: 600 },
 };
