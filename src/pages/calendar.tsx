@@ -2,6 +2,7 @@ import Calendar from "@/components/Calendar";
 import CalendarFriendsSelect from "@/components/CalendarFriendsSelect";
 import CreateScheduleModal from "@/components/CreateScheduleModal";
 import DashboardLayout from "@/components/DashboardLayout";
+import SelectedScheduleModal from "@/components/SelectedScheduleModal";
 import { useCalendarEvents } from "@/hooks/useCalendarEvents";
 import { useGetProfileQuery } from "@/queries/get-profile.query";
 import { Grid } from "@mui/material";
@@ -15,6 +16,15 @@ export default function CalendarPage() {
   const handleOpenCreateScheduleModal = () => setOpenCreateScheduleModal(true);
   const handleCloseCreateScheduleModal = () =>
     setOpenCreateScheduleModal(false);
+  const [selectedSchedule, setSelectedSchedule] = useState();
+
+  const [openSelectedScheduleModal, setOpenSelectedScheduleModal] =
+    useState(false);
+  const handleOpenSelectedScheduleModal = () =>
+    setOpenSelectedScheduleModal(true);
+  const handleCloseSelectedScheduleModal = () =>
+    setOpenSelectedScheduleModal(false);
+
   const [selectedFriendsIds, setSelectedFriendsIds] = useState<string[]>([]);
   const [currentDate, setCurrentDate] = useState<Date>(moment().toDate());
   const [currentView, setCurrentView] = useState<View>("week");
@@ -88,6 +98,14 @@ export default function CalendarPage() {
     }
   }, [currentDate, currentView]);
 
+  const handleSelectEvent: CalendarProps["onSelectEvent"] = (event) => {
+    if (!isNil(event?.resource.title)) {
+      setSelectedSchedule(event?.resource);
+
+      handleOpenSelectedScheduleModal();
+    }
+  };
+
   return (
     <DashboardLayout>
       <main>
@@ -102,6 +120,7 @@ export default function CalendarPage() {
               onNavigate={handleCalendarNavigate}
               onView={handleCalendarView}
               defaultDate={moment().toDate()}
+              onSelectEvent={handleSelectEvent}
             />
           </Grid>
         </Grid>
@@ -112,6 +131,11 @@ export default function CalendarPage() {
         startDate={startDate}
         endDate={endDate}
         userIds={currentUserAndFriendsUserIds}
+      />
+      <SelectedScheduleModal
+        open={openSelectedScheduleModal}
+        onClose={handleCloseSelectedScheduleModal}
+        schedule={selectedSchedule}
       />
     </DashboardLayout>
   );

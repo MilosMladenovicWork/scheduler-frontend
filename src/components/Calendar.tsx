@@ -33,9 +33,15 @@ export default function Calendar({
   onNavigate,
   defaultDate,
   onView,
+  onSelectEvent,
 }: Pick<
   CalendarProps,
-  "events" | "onSelectSlot" | "onNavigate" | "defaultDate" | "onView"
+  | "events"
+  | "onSelectSlot"
+  | "onNavigate"
+  | "defaultDate"
+  | "onView"
+  | "onSelectEvent"
 >) {
   return (
     <Box
@@ -67,6 +73,7 @@ export default function Calendar({
         onNavigate={onNavigate}
         defaultDate={defaultDate}
         onView={onView}
+        onSelectEvent={onSelectEvent}
       />
     </Box>
   );
