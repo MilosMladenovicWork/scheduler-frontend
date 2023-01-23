@@ -91,7 +91,7 @@ export default function CalendarPage() {
   return (
     <DashboardLayout>
       <main>
-        <Grid container columnSpacing={2} rowSpacing={3}>
+        <Grid container columnSpacing={2} rowSpacing={3} sx={{ pb: 3 }}>
           <Grid item xs={12}>
             <CalendarFriendsSelect onChange={handleCalendarFriendsSelect} />
           </Grid>
