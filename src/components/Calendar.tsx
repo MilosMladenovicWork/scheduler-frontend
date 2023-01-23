@@ -38,29 +38,37 @@ export default function Calendar({
   "events" | "onSelectSlot" | "onNavigate" | "defaultDate" | "onView"
 >) {
   return (
-    <BigCalendar
-      components={{
-        eventWrapper: EventWrapper,
-        event: CustomEvent,
-        timeSlotWrapper: CustomTimeSlotWrapper,
+    <Box
+      sx={{
+        "& .rbc-toolbar": {
+          flexDirection: { xs: "column", sm: "row" },
+        },
       }}
-      localizer={localizer}
-      formats={{
-        timeGutterFormat: "HH:mm",
-      }}
-      events={events}
-      startAccessor="start"
-      endAccessor="end"
-      style={{ height: "80vh" }}
-      views={["day", "week", "month"]}
-      defaultView={"week"}
-      onSelectSlot={onSelectSlot}
-      selectable
-      step={15}
-      onNavigate={onNavigate}
-      defaultDate={defaultDate}
-      onView={onView}
-    />
+    >
+      <BigCalendar
+        components={{
+          eventWrapper: EventWrapper,
+          event: CustomEvent,
+          timeSlotWrapper: CustomTimeSlotWrapper,
+        }}
+        localizer={localizer}
+        formats={{
+          timeGutterFormat: "HH:mm",
+        }}
+        events={events}
+        startAccessor="start"
+        endAccessor="end"
+        style={{ height: "80vh" }}
+        views={["day", "week", "month"]}
+        defaultView={"week"}
+        onSelectSlot={onSelectSlot}
+        selectable
+        step={15}
+        onNavigate={onNavigate}
+        defaultDate={defaultDate}
+        onView={onView}
+      />
+    </Box>
   );
 }
 
