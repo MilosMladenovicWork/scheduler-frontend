@@ -30,7 +30,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <AppBar position="static">
+      <AppBar position="sticky">
         <Container maxWidth="xl" sx={{ minHeight: "100%" }}>
           <Toolbar disableGutters>
             <Grid container>
