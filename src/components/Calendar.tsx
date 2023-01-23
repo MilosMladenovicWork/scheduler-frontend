@@ -12,11 +12,10 @@ import { ComponentType, useMemo } from "react";
 import {
   ScheduleParticipantUserStatus,
   ScheduleResponseItem,
-  SchedulesResponse,
 } from "@/queries/get-schedules.query";
 import { Box, Grid, Typography } from "@mui/material";
 import { useGetProfileQuery } from "@/queries/get-profile.query";
-import { blue, grey, orange, purple } from "@mui/material/colors";
+import { blue, grey, orange } from "@mui/material/colors";
 import { isNil } from "lodash";
 
 moment.locale("sr", {
@@ -40,7 +39,11 @@ export default function Calendar({
 >) {
   return (
     <BigCalendar
-      components={{ eventWrapper: EventWrapper, event: CustomEvent }}
+      components={{
+        eventWrapper: EventWrapper,
+        event: CustomEvent,
+        timeSlotWrapper: CustomTimeSlotWrapper,
+      }}
       localizer={localizer}
       events={events}
       startAccessor="start"
@@ -118,7 +121,6 @@ export const EventWrapper: ComponentType<EventWrapperProps<Event>> = ({
 export const CustomEvent: ComponentType<EventProps<Event>> = ({
   event,
   title,
-  ...props
 }) => {
   const { resource }: { resource?: ScheduleResponseItem } = event;
   const { data: profileData } = useGetProfileQuery();
@@ -155,7 +157,12 @@ export const CustomEvent: ComponentType<EventProps<Event>> = ({
 
   return (
     <Box sx={{ height: "100%" }}>
-      <Grid container direction="column" justifyContent="space-between">
+      <Grid
+        container
+        direction="column"
+        justifyContent="space-between"
+        sx={{ height: "100%" }}
+      >
         <Grid item>
           <Typography variant="body2">{title}</Typography>
         </Grid>
@@ -165,4 +172,9 @@ export const CustomEvent: ComponentType<EventProps<Event>> = ({
       </Grid>
     </Box>
   );
+};
+
+export const CustomTimeSlotWrapper = ({ ...props }) => {
+  console.log(props);
+  return <Typography {...props} variant="body2"></Typography>;
 };
