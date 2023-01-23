@@ -5,13 +5,26 @@ import { useAuthQuery } from "./get-auth.query";
 
 export type GetUserData = { from?: Date; to?: Date; userIds: string[] };
 
-export type SchedulesResponse = {
+export type ScheduleResponseItem = {
   id: string;
   startDate: Date;
   endDate: Date;
   title?: string;
   description?: string;
-}[];
+  scheduleParticipantUsers?: {
+    userId: string;
+    status: ScheduleParticipantUserStatus;
+  }[];
+};
+
+export type SchedulesResponse = ScheduleResponseItem[];
+
+export enum ScheduleParticipantUserStatus {
+  ACCEPTED = "accepted",
+  REJECTED = "rejected",
+  REJECTED_AUTOMATICALLY = "rejected_automatically",
+  PENDING = "pending",
+}
 
 export const useSchedulesQuery = (
   { from, to, userIds }: GetUserData,
