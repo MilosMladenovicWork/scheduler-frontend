@@ -2,10 +2,10 @@ import Calendar from "@/components/Calendar";
 import CalendarFriendsSelect from "@/components/CalendarFriendsSelect";
 import CreateScheduleModal from "@/components/CreateScheduleModal";
 import DashboardLayout from "@/components/DashboardLayout";
+import { useCalendarEvents } from "@/hooks/useCalendarEvents";
 import { useGetProfileQuery } from "@/queries/get-profile.query";
-import { useSchedulesQuery } from "@/queries/get-schedules.query";
 import { Grid } from "@mui/material";
-import { isEmpty, isNil } from "lodash";
+import { isNil } from "lodash";
 import moment from "moment";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { CalendarProps, View } from "react-big-calendar";
@@ -25,29 +25,17 @@ export default function CalendarPage() {
   const [endDate, setEndDate] = useState<Date>();
 
   const { data: profileData } = useGetProfileQuery();
-  const userIds = useMemo(
-    () => (!isNil(profileData) ? [profileData.userId] : []),
-    [profileData]
-  );
-  const currentUserAndFriendsUserIds = useMemo(
-    () => [...userIds, ...selectedFriendsIds],
-    [selectedFriendsIds, userIds]
-  );
-  const { data } = useSchedulesQuery(
-    {
-      from: fromDate,
-      to: toDate,
-      userIds: currentUserAndFriendsUserIds,
-    },
-    { enabled: !isEmpty(userIds), keepPreviousData: true }
-  );
 
-  const events = data?.map(({ startDate, endDate, title }) => {
-    return {
-      start: moment(startDate).local().toDate(),
-      end: moment(endDate).local().toDate(),
-      title,
-    };
+  const currentUserAndFriendsUserIds = useMemo(() => {
+    return !isNil(profileData)
+      ? selectedFriendsIds.concat(profileData?.userId)
+      : selectedFriendsIds;
+  }, [profileData, selectedFriendsIds]);
+
+  const events = useCalendarEvents({
+    fromDate,
+    toDate,
+    userIds: currentUserAndFriendsUserIds,
   });
 
   const handleSelectSlot: CalendarProps["onSelectSlot"] = ({
