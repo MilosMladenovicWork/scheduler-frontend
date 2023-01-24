@@ -1,6 +1,6 @@
 import { api } from "@/api/api";
 import { Response } from "@/types/response.type";
-import { useQuery } from "react-query";
+import { QueryOptions, useQuery } from "react-query";
 import { useAuthQuery } from "./get-auth.query";
 
 export type GetUserData = { userId: string };
@@ -10,7 +10,10 @@ export type GetUserResponse = {
   username: string;
 };
 
-export const useGetUserQuery = (data: GetUserData) => {
+export const useGetUserQuery = (
+  data: GetUserData,
+  options?: { enabled: boolean }
+) => {
   const { data: authData } = useAuthQuery();
 
   return useQuery(
@@ -21,6 +24,6 @@ export const useGetUserQuery = (data: GetUserData) => {
           headers: { Authorization: `Bearer ${authData?.token}` },
         })
       ).data.data,
-    { staleTime: 5 * 60 * 1000 }
+    { staleTime: 5 * 60 * 1000, ...options }
   );
 };
