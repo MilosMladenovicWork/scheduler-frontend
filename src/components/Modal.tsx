@@ -48,8 +48,8 @@ export default function Modal({
     >
       <Fade in={open}>
         <Box sx={style}>
-          <Grid container justifyContent="flex-end">
-            <Grid item>
+          <Grid container sx={{ height: "100%" }} direction="column">
+            <Grid alignSelf="flex-end" item>
               <IconButton
                 onClick={onClose}
                 edge="end"
@@ -58,8 +58,8 @@ export default function Modal({
                 <Close />
               </IconButton>
             </Grid>
+            <Grid>{children}</Grid>
           </Grid>
-          {children}
         </Box>
       </Fade>
     </MuiModal>

@@ -7,6 +7,7 @@ import { useGetUserQuery } from "@/queries/get-user.query";
 import { Check, CheckCircle, Pending, RemoveCircle } from "@mui/icons-material";
 import {
   Avatar,
+  ButtonGroup,
   Grid,
   List,
   ListItem,
@@ -14,9 +15,10 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
-import { green, orange, red } from "@mui/material/colors";
+import { blue, green, orange, red } from "@mui/material/colors";
 import { isNil } from "lodash";
 import moment from "moment";
+import Button from "./Button";
 import Modal from "./Modal";
 
 export default function SelectedScheduleModal({
@@ -28,6 +30,14 @@ export default function SelectedScheduleModal({
   onClose: () => void;
   schedule?: ScheduleResponseItem;
 }) {
+  const { data: profileData } = useGetProfileQuery();
+
+  const currentUserParticipant = schedule?.scheduleParticipantUsers?.find(
+    ({ userId }) => userId === profileData?.userId
+  );
+
+  const currentUserParticipantStatus = currentUserParticipant?.status;
+
   return (
     <Modal open={open} onClose={onClose}>
       <Grid container direction="column" rowSpacing={4}>
@@ -48,6 +58,27 @@ export default function SelectedScheduleModal({
                 <Participant key={userId} id={userId} status={status} />
               ))}
             </List>
+          </Grid>
+          <Grid item container>
+            {currentUserParticipantStatus ===
+              ScheduleParticipantUserStatus.PENDING && (
+              <ButtonGroup fullWidth>
+                <Button variant="contained" color="error">
+                  Reject
+                </Button>
+                <Button variant="contained" color="primary">
+                  Accept
+                </Button>
+              </ButtonGroup>
+            )}
+            {currentUserParticipantStatus ===
+              ScheduleParticipantUserStatus.ACCEPTED && (
+              <ButtonGroup fullWidth>
+                <Button variant="contained" color="error">
+                  Reject
+                </Button>
+              </ButtonGroup>
+            )}
           </Grid>
         </Grid>
       </Grid>
