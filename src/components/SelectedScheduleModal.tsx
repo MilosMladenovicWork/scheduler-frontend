@@ -4,6 +4,7 @@ import {
   ScheduleResponseItem,
 } from "@/queries/get-schedules.query";
 import { useGetUserQuery } from "@/queries/get-user.query";
+import { useUpdateScheduleParticipationMutation } from "@/queries/update-schedule-participation.mutation";
 import { Check, CheckCircle, Pending, RemoveCircle } from "@mui/icons-material";
 import {
   Avatar,
@@ -31,6 +32,36 @@ export default function SelectedScheduleModal({
   schedule?: ScheduleResponseItem;
 }) {
   const { data: profileData } = useGetProfileQuery();
+
+  const mutation = useUpdateScheduleParticipationMutation();
+
+  const handleReject = () => {
+    if (!isNil(schedule)) {
+      mutation.mutate(
+        {
+          scheduleId: schedule?.id,
+          updateScheduleParticipationData: {
+            status: ScheduleParticipantUserStatus.REJECTED,
+          },
+        },
+        { onSuccess: () => onClose() }
+      );
+    }
+  };
+
+  const handleAccept = () => {
+    if (!isNil(schedule)) {
+      mutation.mutate(
+        {
+          scheduleId: schedule?.id,
+          updateScheduleParticipationData: {
+            status: ScheduleParticipantUserStatus.ACCEPTED,
+          },
+        },
+        { onSuccess: () => onClose() }
+      );
+    }
+  };
 
   const currentUserParticipant = schedule?.scheduleParticipantUsers?.find(
     ({ userId }) => userId === profileData?.userId
@@ -63,10 +94,20 @@ export default function SelectedScheduleModal({
             {currentUserParticipantStatus ===
               ScheduleParticipantUserStatus.PENDING && (
               <ButtonGroup fullWidth>
-                <Button variant="contained" color="error">
+                <Button
+                  variant="contained"
+                  color="error"
+                  onClick={handleReject}
+                  disabled={mutation?.isLoading}
+                >
                   Reject
                 </Button>
-                <Button variant="contained" color="primary">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleAccept}
+                  disabled={mutation?.isLoading}
+                >
                   Accept
                 </Button>
               </ButtonGroup>
@@ -74,7 +115,12 @@ export default function SelectedScheduleModal({
             {currentUserParticipantStatus ===
               ScheduleParticipantUserStatus.ACCEPTED && (
               <ButtonGroup fullWidth>
-                <Button variant="contained" color="error">
+                <Button
+                  variant="contained"
+                  color="error"
+                  onClick={handleReject}
+                  disabled={mutation?.isLoading}
+                >
                   Reject
                 </Button>
               </ButtonGroup>
