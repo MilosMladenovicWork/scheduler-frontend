@@ -11,6 +11,7 @@ import { useGetProfileQuery } from "@/queries/get-profile.query";
 import DashboardDrawer from "./DashboardDrawer";
 import { ReactNode, useState } from "react";
 import { Menu } from "@mui/icons-material";
+import Link from "next/link";
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   const { data } = useGetProfileQuery();
@@ -47,22 +48,23 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                   </IconButton>
                 </Grid>
                 <Grid item>
-                  <Typography
-                    variant="h6"
-                    noWrap
-                    component="a"
-                    href="/"
-                    sx={{
-                      mr: 2,
-                      fontFamily: "monospace",
-                      fontWeight: 700,
-                      letterSpacing: ".3rem",
-                      color: "inherit",
-                      textDecoration: "none",
-                    }}
-                  >
-                    SCHEDULED
-                  </Typography>
+                  <Link href="/">
+                    <Typography
+                      variant="h6"
+                      noWrap
+                      component="a"
+                      sx={{
+                        mr: 2,
+                        fontFamily: "monospace",
+                        fontWeight: 700,
+                        letterSpacing: ".3rem",
+                        color: "inherit",
+                        textDecoration: "none",
+                      }}
+                    >
+                      SCHEDULED
+                    </Typography>
+                  </Link>
                 </Grid>
               </Grid>
               <Grid

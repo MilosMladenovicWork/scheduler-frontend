@@ -70,7 +70,7 @@ export default function DashboardDrawer({
         <Divider />
         <List>
           <ListItem disablePadding>
-            <ListItemButton>
+            <ListItemButton href="/">
               <ListItemIcon>
                 <Logout />
               </ListItemIcon>
