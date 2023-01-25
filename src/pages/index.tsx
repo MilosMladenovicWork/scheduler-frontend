@@ -4,18 +4,8 @@ import LoginModal from "@/components/LoginModal";
 import { useState } from "react";
 import RegisterModal from "@/components/RegisterModal";
 import Button from "@/components/Button";
-
-const style = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
+import runningPersonSvg from "../../public/running_person.svg";
+import Image from "next/image";
 
 export default function Home() {
   const [openLoginModal, setOpenLoginModal] = useState(false);
@@ -80,7 +70,57 @@ export default function Home() {
         </Container>
       </AppBar>
       <Container maxWidth="xl">
-        <main></main>
+        <main>
+          <Grid
+            container
+            alignItems="center"
+            sx={{ flexDirection: { xs: "row", sm: "row-reverse" } }}
+          >
+            <Grid
+              item
+              xs={12}
+              sm={7}
+              sx={{
+                position: "relative",
+                height: { xs: "40vh", sm: "70vh" },
+              }}
+            >
+              <Image src={runningPersonSvg} alt="" fill />
+            </Grid>
+            <Grid item xs={12} sm={5} container>
+              <Grid item xs={12}>
+                <Typography
+                  variant="h1"
+                  sx={{ fontSize: { xs: 56, md: 72, lg: 96 } }}
+                >
+                  Schedule
+                </Typography>
+                <Typography variant="body1">
+                  Organize your schedule with your friends
+                </Typography>
+                <Grid
+                  container
+                  xs={12}
+                  md={6}
+                  direction="column"
+                  rowSpacing={1}
+                  sx={{ mt: 1 }}
+                >
+                  <Grid item>
+                    <Button variant="contained" fullWidth>
+                      Sign up
+                    </Button>
+                  </Grid>
+                  <Grid item>
+                    <Button variant="contained" fullWidth>
+                      Log in
+                    </Button>
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
+        </main>
       </Container>
       <LoginModal open={openLoginModal} onClose={handleCloseLoginModal} />
       <RegisterModal
