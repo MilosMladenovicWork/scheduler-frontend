@@ -52,17 +52,17 @@ export default function Home() {
               <Grid item>
                 <Button
                   sx={{ my: 2, color: "white", display: "block" }}
-                  onClick={handleOpenLoginModal}
+                  onClick={handleOpenRegisterModal}
                 >
-                  Login
+                  Register
                 </Button>
               </Grid>
               <Grid item>
                 <Button
                   sx={{ my: 2, color: "white", display: "block" }}
-                  onClick={handleOpenRegisterModal}
+                  onClick={handleOpenLoginModal}
                 >
-                  Register
+                  Login
                 </Button>
               </Grid>
             </Grid>
