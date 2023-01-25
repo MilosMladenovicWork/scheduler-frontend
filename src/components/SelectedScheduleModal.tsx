@@ -77,13 +77,17 @@ export default function SelectedScheduleModal({
             {schedule?.title}
           </Typography>
         </Grid>
-        <Grid item container sx={{ width: "100%" }}>
-          <Grid item xs>
+        <Grid item container sx={{ width: "100%" }} rowSpacing={1}>
+          <Grid item xs={12}>
             <Typography variant="body1">
               {moment(schedule?.startDate).format("DD/MM/YYYY HH:mm")} -{" "}
               {moment(schedule?.endDate).format("DD/MM/YYYY HH:mm")}
             </Typography>
+          </Grid>
+          <Grid item xs={12}>
             <Typography variant="body1">{schedule?.description}</Typography>
+          </Grid>
+          <Grid item xs={12}>
             <List>
               {schedule?.scheduleParticipantUsers?.map(({ userId, status }) => (
                 <Participant key={userId} id={userId} status={status} />
