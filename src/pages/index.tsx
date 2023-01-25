@@ -107,12 +107,20 @@ export default function Home() {
                   sx={{ mt: 1 }}
                 >
                   <Grid item>
-                    <Button variant="contained" fullWidth>
+                    <Button
+                      variant="contained"
+                      fullWidth
+                      onClick={handleOpenRegisterModal}
+                    >
                       Sign up
                     </Button>
                   </Grid>
                   <Grid item>
-                    <Button variant="contained" fullWidth>
+                    <Button
+                      variant="contained"
+                      fullWidth
+                      onClick={handleOpenLoginModal}
+                    >
                       Log in
                     </Button>
                   </Grid>
