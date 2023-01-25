@@ -8,6 +8,7 @@ export type CreateScheduleData = {
   scheduleStartDate: Date;
   scheduleEndDate: Date;
   userIds: string[];
+  description?: string;
 };
 
 export type CreateScheduleResponseResponse = {

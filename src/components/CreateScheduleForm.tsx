@@ -29,6 +29,7 @@ export default function CreateScheduleForm({
           userIds,
           scheduleStartDate: startDate,
           scheduleEndDate: endDate,
+          description: data.description,
         },
         {
           onSuccess,
@@ -46,7 +47,6 @@ export default function CreateScheduleForm({
           <Controller
             name="title"
             control={control}
-            // TODO: change validation
             rules={usernameValidationRules}
             render={({ field: { onChange, value }, fieldState: { error } }) => (
               <TextField
@@ -56,6 +56,22 @@ export default function CreateScheduleForm({
                 label="Title"
                 error={!isNil(error)}
                 helperText={!isNil(error) ? error?.message : null}
+              />
+            )}
+          />
+        </Grid>
+        <Grid item>
+          <Controller
+            name="description"
+            control={control}
+            render={({ field: { onChange, value }, fieldState: { error } }) => (
+              <TextField
+                fullWidth
+                multiline
+                rows={3}
+                onChange={onChange}
+                value={value}
+                label="Description"
               />
             )}
           />
