@@ -20,8 +20,11 @@ import {
   ListItemAvatar,
   ListItemText,
   Skeleton,
+  Typography,
 } from "@mui/material";
+import Image from "next/image";
 import { useCallback, useMemo, useState } from "react";
+import callSvg from "../../public/call.svg";
 
 export default function FriendRequests() {
   const [openAddFriendModal, setOpenAddFriendModal] = useState(false);
@@ -32,7 +35,7 @@ export default function FriendRequests() {
   return (
     <DashboardLayout>
       <main>
-        <Grid container>
+        <Grid container rowSpacing={2}>
           <Grid item container justifyContent="flex-end">
             <Grid item>
               <Button variant="contained" onClick={handleOpenAddFriendModal}>
@@ -40,19 +43,35 @@ export default function FriendRequests() {
               </Button>
             </Grid>
           </Grid>
-          <Grid item xs={12} sm={6} lg={4}>
-            <List>
-              {data?.map(({ id, receiverId, senderId, status }) => {
-                return (
-                  <FriendRequest
-                    key={id}
-                    id={id}
-                    receiverId={receiverId}
-                    senderId={senderId}
-                  />
-                );
-              })}
-            </List>
+          <Grid item xs={12}>
+            <Typography variant="h2">Requests</Typography>
+          </Grid>
+          <Grid item container xs={12}>
+            <Grid item xs={12} sm={4}>
+              <List>
+                {data?.map(({ id, receiverId, senderId }) => {
+                  return (
+                    <FriendRequest
+                      key={id}
+                      id={id}
+                      receiverId={receiverId}
+                      senderId={senderId}
+                    />
+                  );
+                })}
+              </List>
+            </Grid>
+            <Grid
+              item
+              xs
+              sx={{
+                position: "relative",
+                height: "70vh",
+                display: { xs: "none", sm: "flex" },
+              }}
+            >
+              <Image src={callSvg} alt="" fill />
+            </Grid>
           </Grid>
         </Grid>
       </main>

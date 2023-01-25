@@ -11,39 +11,58 @@ import {
   ListItem,
   ListItemAvatar,
   ListItemText,
+  Typography,
 } from "@mui/material";
+import Image from "next/image";
 import { useCallback } from "react";
+import parkSvg from "../../public/park.svg";
 
 export default function Friends() {
   const { data } = useFriendsQuery();
 
   return (
     <DashboardLayout>
-      <Grid container>
-        <Grid item xs={12} sm={6} lg={4}>
-          <List>
-            {data?.map(
-              ({
-                id,
-                username,
-                email,
-                receivedFriendRequests,
-                sentFriendRequests,
-              }) => {
-                const friendRequestId =
-                  receivedFriendRequests[0]?.id || sentFriendRequests[0]?.id;
-                return (
-                  <Friend
-                    key={id}
-                    id={id}
-                    username={username}
-                    email={email}
-                    friendRequestId={friendRequestId}
-                  />
-                );
-              }
-            )}
-          </List>
+      <Grid container rowSpacing={{ xs: 1, sm: 3 }}>
+        <Grid item xs={12}>
+          <Typography variant="h1">Friends</Typography>
+        </Grid>
+        <Grid container item xs={12}>
+          <Grid item xs={12} sm={4}>
+            <List>
+              {data?.map(
+                ({
+                  id,
+                  username,
+                  email,
+                  receivedFriendRequests,
+                  sentFriendRequests,
+                }) => {
+                  const friendRequestId =
+                    receivedFriendRequests[0]?.id || sentFriendRequests[0]?.id;
+                  return (
+                    <Friend
+                      key={id}
+                      id={id}
+                      username={username}
+                      email={email}
+                      friendRequestId={friendRequestId}
+                    />
+                  );
+                }
+              )}
+            </List>
+          </Grid>
+          <Grid
+            item
+            xs
+            sx={{
+              position: "relative",
+              height: "70vh",
+              display: { xs: "none", sm: "flex" },
+            }}
+          >
+            <Image src={parkSvg} alt="" fill />
+          </Grid>
         </Grid>
       </Grid>
     </DashboardLayout>
