@@ -7,6 +7,10 @@ import {
   CreateScheduleData,
   useCreateScheduleMutation,
 } from "@/queries/create-schedule.mutation";
+import { useState } from "react";
+import { AxiosError } from "axios";
+import { ErrorResponse } from "@/queries/login.mutation";
+import { FormError } from "./FormError";
 
 export default function CreateScheduleForm({
   startDate,
@@ -19,9 +23,10 @@ export default function CreateScheduleForm({
   onSuccess?: () => void;
   userIds: string[];
 }) {
+  const [formError, setFormError] = useState<string>();
+
   const { handleSubmit, control } = useForm<CreateScheduleData>();
   const onSubmit = (data: CreateScheduleData) => {
-    // TODO: handle all needed fields by react-hook-form, not only title
     if (!isNil(startDate) && !isNil(endDate)) {
       return mutation.mutate(
         {
@@ -33,6 +38,11 @@ export default function CreateScheduleForm({
         },
         {
           onSuccess,
+          onError: (e) => {
+            setFormError(
+              (e as AxiosError<ErrorResponse>).response?.data.message
+            );
+          },
         }
       );
     }
@@ -76,6 +86,7 @@ export default function CreateScheduleForm({
             )}
           />
         </Grid>
+        <FormError error={formError} />
         <Grid item>
           <Button
             variant="contained"
