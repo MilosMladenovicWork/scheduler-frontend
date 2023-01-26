@@ -56,7 +56,7 @@ export default function Friends() {
               </List>
             ) : (
               <Typography variant="body1">
-                There are currently no friend requests.
+                You have no friends connected with your account.
               </Typography>
             )}
           </Grid>
