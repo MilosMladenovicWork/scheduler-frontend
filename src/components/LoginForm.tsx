@@ -1,4 +1,4 @@
-import { Grid, Stack, TextField, Typography } from "@mui/material";
+import { Grid, TextField } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 import PasswordTextField from "./PasswordTextField";
 import { isNil } from "lodash";
@@ -13,7 +13,7 @@ import {
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { AxiosError } from "axios";
-import { Dangerous } from "@mui/icons-material";
+import { FormError } from "./FormError";
 
 export default function LoginForm({ onSuccess }: { onSuccess?: () => void }) {
   const { handleSubmit, control } = useForm<LoginUserData>();
@@ -73,16 +73,7 @@ export default function LoginForm({ onSuccess }: { onSuccess?: () => void }) {
             )}
           />
         </Grid>
-        {formError && (
-          <Grid item>
-            <Stack direction="row" alignItems="center" gap={1}>
-              <Dangerous color="error" />
-              <Typography variant="caption" color="error" textAlign="center">
-                {formError}
-              </Typography>
-            </Stack>
-          </Grid>
-        )}
+        <FormError error={formError} />
         <Grid item>
           <Button
             variant="contained"

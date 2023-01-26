@@ -11,12 +11,18 @@ import {
   useRegisterMutation,
 } from "@/queries/register.mutation";
 import { useRouter } from "next/navigation";
+import { FormError } from "./FormError";
+import { useState } from "react";
+import { AxiosError } from "axios";
+import { ErrorResponse } from "@/queries/login.mutation";
 
 export default function RegisterForm({
   onSuccess,
 }: {
   onSuccess?: () => void;
 }) {
+  const [formError, setFormError] = useState<string>();
+
   const { handleSubmit, control } = useForm<RegisterUserData>();
   const onSubmit = (data: RegisterUserData) =>
     mutation.mutate(data, {
@@ -26,6 +32,9 @@ export default function RegisterForm({
         }
 
         router.push("/calendar");
+      },
+      onError: (e) => {
+        setFormError((e as AxiosError<ErrorResponse>).response?.data.message);
       },
     });
   const mutation = useRegisterMutation();
@@ -86,6 +95,7 @@ export default function RegisterForm({
             )}
           />
         </Grid>
+        <FormError error={formError} />
         <Grid item>
           <Button
             variant="contained"
