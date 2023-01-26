@@ -22,6 +22,9 @@ export const useFriendsQuery = () => {
         await api.get<Response<FriendsResponse>>("/friends?take=100&skip=0", {
           headers: { Authorization: `Bearer ${data?.token}` },
         })
-      ).data.data
+      ).data.data,
+    {
+      refetchInterval: 10 * 1000,
+    }
   );
 };

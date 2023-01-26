@@ -41,6 +41,6 @@ export const useSchedulesQuery = (
           headers: { Authorization: `Bearer ${authData?.token}` },
         })
       ).data.data,
-    { staleTime: 10 * 1000, ...options }
+    { staleTime: 10 * 1000, refetchInterval: 10 * 1000, ...options }
   );
 };

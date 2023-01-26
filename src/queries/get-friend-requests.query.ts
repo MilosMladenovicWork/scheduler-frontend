@@ -30,6 +30,7 @@ export const useFriendRequestsQuery = () => {
             headers: { Authorization: `Bearer ${data?.token}` },
           }
         )
-      ).data.data
+      ).data.data,
+    { refetchInterval: 10 * 1000 }
   );
 };
