@@ -1,15 +1,24 @@
-import { Grid, TextField } from "@mui/material";
+import { Grid, Stack, TextField, Typography } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 import PasswordTextField from "./PasswordTextField";
 import { isNil } from "lodash";
 import { emailValidationRules } from "@/utils/email-validation-rules";
 import { passwordValidationRules } from "@/utils/password-validation-rules";
 import Button from "./Button";
-import { LoginUserData, useLoginMutation } from "@/queries/login.mutation";
+import {
+  ErrorResponse,
+  LoginUserData,
+  useLoginMutation,
+} from "@/queries/login.mutation";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { AxiosError } from "axios";
+import { Dangerous } from "@mui/icons-material";
 
 export default function LoginForm({ onSuccess }: { onSuccess?: () => void }) {
   const { handleSubmit, control } = useForm<LoginUserData>();
+  const [formError, setFormError] = useState<string>();
+
   const onSubmit = (data: LoginUserData) =>
     mutation.mutate(data, {
       onSuccess: () => {
@@ -17,6 +26,9 @@ export default function LoginForm({ onSuccess }: { onSuccess?: () => void }) {
           onSuccess();
         }
         router.push("/calendar");
+      },
+      onError: (e) => {
+        setFormError((e as AxiosError<ErrorResponse>).response?.data.message);
       },
     });
 
@@ -61,6 +73,16 @@ export default function LoginForm({ onSuccess }: { onSuccess?: () => void }) {
             )}
           />
         </Grid>
+        {formError && (
+          <Grid item>
+            <Stack direction="row" alignItems="center" gap={1}>
+              <Dangerous color="error" />
+              <Typography variant="caption" color="error" textAlign="center">
+                {formError}
+              </Typography>
+            </Stack>
+          </Grid>
+        )}
         <Grid item>
           <Button
             variant="contained"

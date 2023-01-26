@@ -7,6 +7,12 @@ export type LoginUserData = { email: string; password: string };
 
 export type AuthQueryData = { token: string };
 
+export type ErrorResponse = {
+  statusCode: number;
+  message?: string;
+  error: string;
+};
+
 export const useLoginMutation = () => {
   const queryClient = useQueryClient();
 
