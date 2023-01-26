@@ -13,6 +13,7 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
+import { isEmpty } from "lodash";
 import Image from "next/image";
 import { useCallback } from "react";
 import parkSvg from "../../public/park.svg";
@@ -28,29 +29,36 @@ export default function Friends() {
         </Grid>
         <Grid container item xs={12}>
           <Grid item xs={12} sm={4}>
-            <List>
-              {data?.map(
-                ({
-                  id,
-                  username,
-                  email,
-                  receivedFriendRequests,
-                  sentFriendRequests,
-                }) => {
-                  const friendRequestId =
-                    receivedFriendRequests[0]?.id || sentFriendRequests[0]?.id;
-                  return (
-                    <Friend
-                      key={id}
-                      id={id}
-                      username={username}
-                      email={email}
-                      friendRequestId={friendRequestId}
-                    />
-                  );
-                }
-              )}
-            </List>
+            {!isEmpty(data) ? (
+              <List>
+                {data?.map(
+                  ({
+                    id,
+                    username,
+                    email,
+                    receivedFriendRequests,
+                    sentFriendRequests,
+                  }) => {
+                    const friendRequestId =
+                      receivedFriendRequests[0]?.id ||
+                      sentFriendRequests[0]?.id;
+                    return (
+                      <Friend
+                        key={id}
+                        id={id}
+                        username={username}
+                        email={email}
+                        friendRequestId={friendRequestId}
+                      />
+                    );
+                  }
+                )}
+              </List>
+            ) : (
+              <Typography variant="body1">
+                There are currently no friend requests.
+              </Typography>
+            )}
           </Grid>
           <Grid
             item

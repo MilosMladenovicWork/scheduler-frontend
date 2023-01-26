@@ -20,6 +20,7 @@ import {
   Skeleton,
   Typography,
 } from "@mui/material";
+import { isEmpty } from "lodash";
 import Image from "next/image";
 import { useCallback, useMemo, useState } from "react";
 import callSvg from "../../public/call.svg";
@@ -46,18 +47,24 @@ export default function FriendRequests() {
           </Grid>
           <Grid item container xs={12}>
             <Grid item xs={12} sm={4}>
-              <List>
-                {data?.map(({ id, receiverId, senderId }) => {
-                  return (
-                    <FriendRequest
-                      key={id}
-                      id={id}
-                      receiverId={receiverId}
-                      senderId={senderId}
-                    />
-                  );
-                })}
-              </List>
+              {!isEmpty(data) ? (
+                <List>
+                  {data?.map(({ id, receiverId, senderId }) => {
+                    return (
+                      <FriendRequest
+                        key={id}
+                        id={id}
+                        receiverId={receiverId}
+                        senderId={senderId}
+                      />
+                    );
+                  })}
+                </List>
+              ) : (
+                <Typography variant="body1">
+                  You have no friends connected with your account.
+                </Typography>
+              )}
             </Grid>
             <Grid
               item
