@@ -24,7 +24,7 @@ export default function Friends() {
     <DashboardLayout>
       <Grid container rowSpacing={{ xs: 1, sm: 3 }}>
         <Grid item xs={12}>
-          <Typography variant="h1">Friends</Typography>
+          <Typography variant="h2">Friends</Typography>
         </Grid>
         <Grid container item xs={12}>
           <Grid item xs={12} sm={4}>

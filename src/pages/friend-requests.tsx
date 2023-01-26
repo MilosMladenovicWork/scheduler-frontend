@@ -8,11 +8,9 @@ import {
 import { useGetProfileQuery } from "@/queries/get-profile.query";
 import { useGetUserQuery } from "@/queries/get-user.query";
 import { useRespondToFriendRequestMutation } from "@/queries/respond-to-friend-request.mutation";
-import { useUpdateFriendRequestMutation } from "@/queries/update-friends.mutation";
 import { Check, Close } from "@mui/icons-material";
 import {
   Avatar,
-  Container,
   Grid,
   IconButton,
   List,
