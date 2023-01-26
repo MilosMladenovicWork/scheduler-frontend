@@ -7,16 +7,25 @@ import {
   AddFriendData,
   useAddFriendMutation,
 } from "@/queries/add-friend.mutation";
+import { FormError } from "./FormError";
+import { useState } from "react";
+import { AxiosError } from "axios";
+import { ErrorResponse } from "@/queries/login.mutation";
 
 export default function AddFriendForm({
   onSuccess,
 }: {
   onSuccess?: () => void;
 }) {
+  const [formError, setFormError] = useState<string>();
+
   const { handleSubmit, control } = useForm<AddFriendData>();
   const onSubmit = (data: AddFriendData) =>
     mutation.mutate(data, {
       onSuccess,
+      onError: (e) => {
+        setFormError((e as AxiosError<ErrorResponse>).response?.data.message);
+      },
     });
 
   const mutation = useAddFriendMutation();
@@ -41,6 +50,7 @@ export default function AddFriendForm({
             )}
           />
         </Grid>
+        <FormError error={formError} />
         <Grid item>
           <Button
             variant="contained"
