@@ -54,7 +54,7 @@ export default function Home() {
                   sx={{ my: 2, color: "white", display: "block" }}
                   onClick={handleOpenRegisterModal}
                 >
-                  Register
+                  Sign up
                 </Button>
               </Grid>
               <Grid item>
