@@ -31,7 +31,7 @@ export default function AddFriendForm({
   const mutation = useAddFriendMutation();
 
   return (
-    <form>
+    <form onSubmit={(e) => e.preventDefault()}>
       <Grid container direction="column" spacing={2}>
         <Grid item>
           <Controller

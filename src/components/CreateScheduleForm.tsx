@@ -51,7 +51,7 @@ export default function CreateScheduleForm({
   const mutation = useCreateScheduleMutation();
 
   return (
-    <form>
+    <form onSubmit={(e) => e.preventDefault()}>
       <Grid container direction="column" spacing={2}>
         <Grid item>
           <Controller

@@ -42,7 +42,7 @@ export default function RegisterForm({
   const router = useRouter();
 
   return (
-    <form>
+    <form onSubmit={(e) => e.preventDefault()}>
       <Grid container direction="column" spacing={2}>
         <Grid item>
           <Controller
